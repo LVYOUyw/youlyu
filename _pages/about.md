@@ -1,3 +1,12 @@
+---
+permalink: /
+title: "About Me"
+author_profile: true
+redirect_from: 
+  - /about/
+  - /about.html
+---
+
 About Me
 ======
 I am You Lyu（吕优）, a second year PhD student at Shanghai Jiao Tong University advised by Prof. Shengli Liu. Prior to this, I received my Bachelor degree with honors from Shanghai Jiao Tong University as a member of the ACM Honors Class. I am broadly interested in public key cryptography, especially in key exchange and post-quantum cryptography.
