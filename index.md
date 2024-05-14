@@ -41,7 +41,7 @@ B.S. in Information Engineering ([Zhiyuan Honors Class](https://en.zhiyuan.sjtu.
 ## Journal Papers
 
 - **Face-Based Authentication Using Computational Secure Sketch**  
-  mingming Jiang, Shengli Liu, You Lyu, and Yu Zhou  
+  Mingming Jiang, Shengli Liu, You Lyu, and Yu Zhou  
   _IEEE Transactions on Mobile Computing_ (TMC 2023)
 
 ## Academic Service
