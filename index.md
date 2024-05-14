@@ -1,3 +1,4 @@
+![Alt Text](jmmw.jpeg)
 ## Research Interest
 
 My research interests focus on public-key cryptography with provable security. 
