@@ -1,4 +1,5 @@
-![Alt Text](jmmw.jpeg)
+<img src="jmmw.jpeg" alt="Image" style="width:300px;height:200px;">
+
 ## Research Interest
 
 My research interests focus on public-key cryptography with provable security. 
