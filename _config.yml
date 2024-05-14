@@ -1,8 +1,8 @@
 theme: jekyll-theme-minimal
-title: Mingming Jiang
-email: jiangmingming at sjtu dot edu dot cn 
-description: <br/> jiangmingming at sjtu dot edu dot cn <br/> <br/> Ph.D Student @ SJTU <br/> Working on cryptography 
-teaser :   "jmmw.jpeg" # filename of teaser fallback teaser image placed in /images/, .e.g.
+# title: Mingming Jiang
+# email: jiangmingming at sjtu dot edu dot cn 
+# description: <br/> jiangmingming at sjtu dot edu dot cn <br/> <br/> Ph.D Student @ SJTU <br/> Working on cryptography 
+# teaser :   "jmmw.jpeg" # filename of teaser fallback teaser image placed in /images/, .e.g.
 # Site Author
 author:
   name             : "Your Sidebar Name"
