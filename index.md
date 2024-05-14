@@ -15,7 +15,7 @@ Bachelor, [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Se
 PH.D. Student in Computer Science, [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Sep 2020 - Presents
 - Advisor: Prof. [**Shengli Liu**](http://english.seiee.sjtu.edu.cn/english/detail/841_671.htm)
 
-B.S. in Information Engineering ([Zhiyuan Honors Class](http://zhiyuan.sjtu.edu.cn/goto/en)), [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Sep 2016 - Jun 2020
+B.S. in Information Engineering ([Zhiyuan Honors Class](https://en.zhiyuan.sjtu.edu.cn/en)), [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Sep 2016 - Jun 2020
 - Thesis Supervisor: Prof. [**Shengli Liu**](http://english.seiee.sjtu.edu.cn/english/detail/841_671.htm)
 
 ## Teaching Assistant
@@ -41,14 +41,14 @@ B.S. in Information Engineering ([Zhiyuan Honors Class](http://zhiyuan.sjtu.edu.
 
 - **Face-Based Authentication Using Computational Secure Sketch**  
   mingming Jiang, Shengli Liu, You Lyu, and Yu Zhou  
-  _Transactions on Mobile Computing_ (2023)
+  _IEEE Transactions on Mobile Computing_ (TMC 2023)
 
 ## Academic Service
 
 I have served as an external reviewer for several cryptography conferences.  
 
 - Conference external reviewer:  
-  EUROCRYPT, ASIACRYPT, ACISP, ProvSec.
+  EUROCRYPT, ASIACRYPT, ProvSec.
 
 
 Last updated: May 2024
