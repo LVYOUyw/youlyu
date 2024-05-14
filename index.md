@@ -1,4 +1,3 @@
-<img src="jmmw.jpeg" alt="Image" style="width:300px;height:200px;">
 
 ## Research Interest
 
