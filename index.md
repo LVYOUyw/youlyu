@@ -29,20 +29,24 @@ B.S. in Information Engineering ([Zhiyuan Honors Class](https://en.zhiyuan.sjtu.
 
 ## Conference Papers
 
-- **Fuzzy Authenticated Key Exchange with Tight Security**  
+- **[Fuzzy Authenticated Key Exchange with Tight Security](https://link.springer.com/chapter/10.1007/978-3-031-17146-8_17)**  
   Mingming Jiang, Shengli Liu, Shuai Han, and Dawu Gu  
   In _Proceedings of the 27th European Symposium on Research in Computer Security_ ([**ESORICS** 2022](https://esorics2022.compute.dtu.dk/))
   
-- **Authentication System Based on Fuzzy Extractors**  
+- **[Authentication System Based on Fuzzy Extractors](https://link.springer.com/chapter/10.1007/978-3-030-86137-7_51)**  
   Mingming Jiang, Shengli Liu, Shuai Han, and Dawu Gu  
   In _Proceedings of the 16th International Conference on Wireless Algorithms, Systems, and Applications_ ([**WASA** 2021](http://wasa-conference.org/WASA2021/))
 
 
 ## Journal Papers
 
-- **Face-Based Authentication Using Computational Secure Sketch**  
+- **[Face-Based Authentication Using Computational Secure Sketch](https://ieeexplore.ieee.org/document/9895318)**  
   Mingming Jiang, Shengli Liu, You Lyu, and Yu Zhou  
-  _IEEE Transactions on Mobile Computing_ (TMC 2023)
+  _IEEE Transactions on Mobile Computing_ (TMC 2023) 
+
+- **[Biometric-Based Two-Factor Authentication Scheme under Database Leakage](https://www.sciencedirect.com/science/article/pii/S0304397524001671?via%3Dihub)**
+   Mingming Jiang, Shengli Liu, Shuai Han, and Dawu Gu
+  _Transactions on Computational Science_ (TCS 2024)
 
 ## Academic Service
 
@@ -52,4 +56,4 @@ I have served as an external reviewer for several cryptography conferences.
   EUROCRYPT, ASIACRYPT, ProvSec.
 
 
-Last updated: May 2024
+Last updated: June 2024
