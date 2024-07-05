@@ -3,57 +3,59 @@
 
 My research interests focus on public-key cryptography with provable security. 
 
-In particular, I am interested in the design of biometric-based authentication (key exchange) protocols.
+In particular, I am interested in the design of key exchange protocols.
 
 ## Experience
 
-Phd students, [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Sep 2020 - Presents
+Phd students, [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Sep 2022 - Presents
 
-Bachelor, [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Sep 2016 - Jun 2020
+Bachelor, [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Sep 2018 - Jun 2022
 
 ## Education
 
-PH.D. Student in Computer Science, [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Sep 2020 - Presents
+PH.D. Student in Computer Science, [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Sep 2022 - Presents
 - Advisor: Prof. [**Shengli Liu**](http://english.seiee.sjtu.edu.cn/english/detail/841_671.htm)
 
-B.S. in Information Engineering ([Zhiyuan Honors Class](https://en.zhiyuan.sjtu.edu.cn/en)), [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Sep 2016 - Jun 2020
+B.S. in Computer Science ([ACM Class](https://en.zhiyuan.sjtu.edu.cn/en)), [**Shanghai Jiao Tong University**](http://en.sjtu.edu.cn/), China, Sep 2018 - Jun 2022
 - Thesis Supervisor: Prof. [**Shengli Liu**](http://english.seiee.sjtu.edu.cn/english/detail/841_671.htm)
 
 ## Teaching Assistant
 
-- MATH2203: **Modern Algebras** (Undergraduate,  Autumn 2022)  
+- MATH2203: **Modern Algebras** (Undergraduate,  Autumn 2021, Autumn 2022)  
 
-- CS7301: **Modern Cryptographic Algorithms** (Graduate, Spring 2023, Spring 2024)  
+- CS7301: **Modern Cryptographic Algorithms** (Graduate, Spring 2024)  
 
-- CS1501: **Thinking and Methodology in Programming (C++)**	(Undergraduate, Autumn 2021)  
 
 ## Conference Papers
 
-- **[Fuzzy Authenticated Key Exchange with Tight Security](https://link.springer.com/chapter/10.1007/978-3-031-17146-8_17)**  
-  Mingming Jiang, Shengli Liu, Shuai Han, and Dawu Gu  
-  In _Proceedings of the 27th European Symposium on Research in Computer Security_ ([**ESORICS** 2022](https://esorics2022.compute.dtu.dk/))
+- **[Universal Composable Password Authenticated Key Exchange for the Post-Quantum World](https://doi.org/10.1007/978-3-031-58754-2_5)**  
+  You Lyu, Shengli Liu, and Shuai Han
+  [**Eurocrypt** 2024]
   
-- **[Authentication System Based on Fuzzy Extractors](https://link.springer.com/chapter/10.1007/978-3-030-86137-7_51)**  
-  Mingming Jiang, Shengli Liu, Shuai Han, and Dawu Gu  
-  In _Proceedings of the 16th International Conference on Wireless Algorithms, Systems, and Applications_ ([**WASA** 2021](http://wasa-conference.org/WASA2021/))
+- **[Two-Message Authenticated Key Exchange from Public-Key Encryption](https://doi.org/10.1007/978-3-031-50594-2_21)**  
+  You Lyu, and Shengli Liu
+  [**ESORICS** 2023]
+
+- **[Privacy-Preserving Authenticated Key Exchange in the Standard Model](https://doi.org/10.1007/978-3-031-22969-5_8)**  
+  You Lyu, Shengli Liu, Shuai Han, and Dawu Gu
+  [**Asiacrypt** 2022]
+
+- **[Online Facility Location with Predictions](https://openreview.net/forum?id=DSQHjibtgKR)**  
+  Shaofeng H.-C. Jiang, Erzhi Liu, You Lyu, Zhihao Gavin Tang, and Yubo Zhang
+  [**ICLR** 2022]
 
 
 ## Journal Papers
 
 - **[Face-Based Authentication Using Computational Secure Sketch](https://ieeexplore.ieee.org/document/9895318)**  
   Mingming Jiang, Shengli Liu, You Lyu, and Yu Zhou  
-  _IEEE Transactions on Mobile Computing_ (TMC 2023) 
-
-- **[Biometric-Based Two-Factor Authentication Scheme under Database Leakage](https://www.sciencedirect.com/science/article/pii/S0304397524001671?via%3Dihub)**
-   Mingming Jiang, Shengli Liu, Shuai Han, and Dawu Gu
-  _Transactions on Computational Science_ (TCS 2024)
+  _IEEE Transactions on Mobile Computing_ (TMC 2023)
 
 ## Academic Service
 
 I have served as an external reviewer for several cryptography conferences.  
 
 - Conference external reviewer:  
-  EUROCRYPT, ASIACRYPT, ProvSec.
-
+  EUROCRYPT, ASIACRYPT, ACISP, ProvSec.
 
 Last updated: June 2024
