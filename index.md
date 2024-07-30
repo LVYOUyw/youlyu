@@ -29,7 +29,7 @@ B.S. in Computer Science ([ACM Class](https://en.zhiyuan.sjtu.edu.cn/en)), [**Sh
 ## Conference Papers
 
 - **[Universal Composable Password Authenticated Key Exchange for the Post-Quantum World](https://doi.org/10.1007/978-3-031-58754-2_5)**  
-  You Lyu, Shengli Liu, and Shuai Han
+  You Lyu, Shengli Liu, and [Shuai Han](https://dalenhan.github.io)
   [**Eurocrypt** 2024]
   
 - **[Two-Message Authenticated Key Exchange from Public-Key Encryption](https://doi.org/10.1007/978-3-031-50594-2_21)**  
@@ -37,7 +37,7 @@ B.S. in Computer Science ([ACM Class](https://en.zhiyuan.sjtu.edu.cn/en)), [**Sh
   [**ESORICS** 2023]
 
 - **[Privacy-Preserving Authenticated Key Exchange in the Standard Model](https://doi.org/10.1007/978-3-031-22969-5_8)**  
-  You Lyu, Shengli Liu, Shuai Han, and Dawu Gu
+  You Lyu, Shengli Liu, [Shuai Han](https://dalenhan.github.io), and Dawu Gu
   [**Asiacrypt** 2022]
 
 - **[Online Facility Location with Predictions](https://openreview.net/forum?id=DSQHjibtgKR)**  
@@ -48,7 +48,7 @@ B.S. in Computer Science ([ACM Class](https://en.zhiyuan.sjtu.edu.cn/en)), [**Sh
 ## Journal Papers
 
 - **[Face-Based Authentication Using Computational Secure Sketch](https://ieeexplore.ieee.org/document/9895318)**  
-  Mingming Jiang, Shengli Liu, You Lyu, and Yu Zhou  
+  [Mingming Jiang](https://eringiang.github.io), Shengli Liu, You Lyu, and Yu Zhou  
   _IEEE Transactions on Mobile Computing_ (TMC 2023)
 
 ## Academic Service
