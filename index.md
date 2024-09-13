@@ -28,6 +28,10 @@ B.S. in Computer Science ([ACM Class](https://en.zhiyuan.sjtu.edu.cn/en)), [**Sh
 
 ## Conference Papers
 
+- **[Efficient Asymmetric PAKE Compiler from KEM and AE](https://eprint.iacr.org/2024/1400)**  
+  You Lyu, Shengli Liu, and [Shuai Han](https://dalenhan.github.io)
+  [**Asiacrypt** 2024]
+
 - **[Universal Composable Password Authenticated Key Exchange for the Post-Quantum World](https://doi.org/10.1007/978-3-031-58754-2_5)**  
   You Lyu, Shengli Liu, and [Shuai Han](https://dalenhan.github.io)
   [**Eurocrypt** 2024]
@@ -49,7 +53,7 @@ B.S. in Computer Science ([ACM Class](https://en.zhiyuan.sjtu.edu.cn/en)), [**Sh
 
 - **[Face-Based Authentication Using Computational Secure Sketch](https://ieeexplore.ieee.org/document/9895318)**  
   [Mingming Jiang](https://eringiang.github.io), Shengli Liu, You Lyu, and Yu Zhou  
-  _IEEE Transactions on Mobile Computing_ (TMC 2023)
+  _IEEE Transactions on Mobile Computing_ (**TMC** 2023)
 
 ## Academic Service
 
@@ -58,6 +62,6 @@ I have served as an external reviewer for several cryptography conferences.
 - Conference external reviewer:  
   EUROCRYPT, ASIACRYPT, ACISP, ProvSec.
 
-Last updated: June 2024
+Last updated: Sep 2024
 
 <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=BG_mRv8wDKH86EsWBG24H2BkP4oZG5uaktE6IRQOwhM&cl=ffffff&w=a"></script>
