@@ -28,7 +28,7 @@ B.S. in Computer Science ([ACM Class](https://en.zhiyuan.sjtu.edu.cn/en)), [**Sh
 
 ## Conference Papers
 
-- **[Hybrid Password Authentication Key Exchange in the UC Framework](https://eprint.iacr.org/2024/1630)**
+- **[Hybrid Password Authentication Key Exchange in the UC Framework](https://eprint.iacr.org/2024/1630)**  
   You Lyu and Shengli Liu
   [**Eurocrypt** 2025]
   
@@ -41,7 +41,7 @@ B.S. in Computer Science ([ACM Class](https://en.zhiyuan.sjtu.edu.cn/en)), [**Sh
   [**Eurocrypt** 2024]
   
 - **[Two-Message Authenticated Key Exchange from Public-Key Encryption](https://doi.org/10.1007/978-3-031-50594-2_21)**  
-  You Lyu, and Shengli Liu
+  You Lyu and Shengli Liu
   [**ESORICS** 2023]
 
 - **[Privacy-Preserving Authenticated Key Exchange in the Standard Model](https://doi.org/10.1007/978-3-031-22969-5_8)**  
