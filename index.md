@@ -28,7 +28,11 @@ B.S. in Computer Science ([ACM Class](https://en.zhiyuan.sjtu.edu.cn/en)), [**Sh
 
 ## Conference Papers
 
-- **[Efficient Asymmetric PAKE Compiler from KEM and AE](https://eprint.iacr.org/2024/1400)**  
+- **[Hybrid Password Authentication Key Exchange in the UC Framework](https://eprint.iacr.org/2024/1630)**
+  You Lyu and Shengli Liu
+  [**Eurocrypt** 2025]
+  
+- **[Efficient Asymmetric PAKE Compiler from KEM and AE](https://doi.org/10.1007/978-981-96-0935-2_2)**  
   You Lyu, Shengli Liu, and [Shuai Han](https://dalenhan.github.io)
   [**Asiacrypt** 2024]
 
@@ -62,6 +66,6 @@ I have served as an external reviewer for several cryptography conferences.
 - Conference external reviewer:  
   EUROCRYPT, ASIACRYPT, ACISP, ProvSec.
 
-Last updated: Sep 2024
+Last updated: Feb 2025
 
 <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=BG_mRv8wDKH86EsWBG24H2BkP4oZG5uaktE6IRQOwhM&cl=ffffff&w=a"></script>
