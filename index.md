@@ -68,4 +68,4 @@ I have served as an external reviewer for several cryptography conferences.
 
 Last updated: Feb 2025
 
-<script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=BG_mRv8wDKH86EsWBG24H2BkP4oZG5uaktE6IRQOwhM&cl=ffffff&w=a"></script>
+<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=63b0aAwWCP1BZo0PfE_VPz8Jh8tLhw-j_V3EltzI3UY&cl=ffffff&w=a"></script>
