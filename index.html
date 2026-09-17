@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Lyu (吕优) — Cryptography Researcher, SJTU</title>
+<meta name="description" content="You Lyu (吕优) — Ph.D. student in Computer Science at Shanghai Jiao Tong University, working on public-key cryptography with provable security, especially key exchange protocols.">
+<meta property="og:title" content="You Lyu (吕优) — Cryptography Researcher">
+<meta property="og:description" content="Ph.D. student @ SJTU · Public-key cryptography with provable security · Key exchange protocols">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a0c11">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%230a0c11"/><text x="32" y="42" font-family="Georgia,serif" font-size="30" fill="%23d9a648" text-anchor="middle">YL</text></svg>'>
+<script>
+  // Apply saved theme before first paint to avoid flash.
+  (function () {
+    try {
+      var t = localStorage.getItem('yl-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+    document.documentElement.classList.add('js');
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ---------------- Theme tokens ---------------- */
+  :root, [data-theme="dark"] {
+    --bg: #0a0c11;
+    --bg-soft: #10131b;
+    --panel: rgba(255, 255, 255, 0.028);
+    --panel-strong: rgba(255, 255, 255, 0.05);
+    --line: rgba(233, 231, 222, 0.10);
+    --line-soft: rgba(233, 231, 222, 0.06);
+    --text: #e9e7de;
+    --heading: #f4f2ea;
+    --muted: #979da9;
+    --faint: #6b7280;
+    --accent: #d9a648;
+    --accent-strong: #e7bc62;
+    --accent-soft: rgba(217, 166, 72, 0.12);
+    --glyph: 233, 231, 222;
+    --glyph-accent: 217, 166, 72;
+    --grid-line: rgba(233, 231, 222, 0.045);
+    --shadow: 0 18px 50px -18px rgba(0, 0, 0, 0.65);
+    --c-euro: #7ea2ff;
+    --c-asia: #4fd1a5;
+    --c-esorics: #b79bff;
+    --c-iclr: #f0b35c;
+    --c-tmc: #fb8ba4;
+  }
+  [data-theme="light"] {
+    --bg: #f6f3ec;
+    --bg-soft: #efece2;
+    --panel: rgba(28, 30, 38, 0.025);
+    --panel-strong: rgba(28, 30, 38, 0.05);
+    --line: rgba(28, 30, 38, 0.13);
+    --line-soft: rgba(28, 30, 38, 0.07);
+    --text: #23252e;
+    --heading: #14161d;
+    --muted: #5b6270;
+    --faint: #8a90a0;
+    --accent: #96690f;
+    --accent-strong: #7d580c;
+    --accent-soft: rgba(150, 105, 15, 0.10);
+    --glyph: 35, 37, 46;
+    --glyph-accent: 150, 105, 15;
+    --grid-line: rgba(28, 30, 38, 0.05);
+    --shadow: 0 18px 45px -20px rgba(40, 35, 20, 0.28);
+    --c-euro: #2c5ae0;
+    --c-asia: #0b8262;
+    --c-esorics: #6d43d6;
+    --c-iclr: #b36a00;
+    --c-tmc: #cf3f63;
+  }
+
+  /* ---------------- Base ---------------- */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, "Segoe UI", sans-serif;
+    font-size: 16.5px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background .35s ease, color .35s ease;
+  }
+  ::selection { background: var(--accent); color: var(--bg); }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--accent-strong); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .container { max-width: 980px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+  .serif { font-family: "Fraunces", Georgia, serif; }
+
+  #bg-canvas {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 0; background: var(--accent); color: var(--bg);
+    padding: 8px 14px; z-index: 99; font-size: 14px;
+  }
+  .skip-link:focus { left: 12px; top: 12px; }
+
+  /* ---------------- Nav ---------------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-inner {
+    max-width: 980px; margin: 0 auto; padding: 0 28px;
+    height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand { font-family: "Fraunces", serif; font-weight: 600; font-size: 1.06rem; letter-spacing: .01em; color: var(--heading); }
+  .brand .zh { color: var(--accent); font-weight: 500; margin-left: 4px; }
+  .nav-links { display: flex; align-items: center; gap: 22px; }
+  .nav-links a {
+    font-family: "JetBrains Mono", monospace; font-size: .76rem; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .nav-links a:hover { color: var(--accent-strong); }
+  #theme-toggle {
+    background: var(--panel); border: 1px solid var(--line); color: var(--muted);
+    width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: color .2s, border-color .2s, transform .2s;
+  }
+  #theme-toggle:hover { color: var(--accent-strong); border-color: var(--accent); transform: rotate(15deg); }
+  #theme-toggle svg { width: 16px; height: 16px; }
+  .icon-sun { display: none; }
+  [data-theme="light"] .icon-sun { display: block; }
+  [data-theme="light"] .icon-moon { display: none; }
+
+  /* ---------------- Hero ---------------- */
+  .hero { padding: 168px 0 96px; position: relative; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, black 30%, transparent 75%);
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 264px; gap: 56px; align-items: start;
+  }
+  .hero-grid > * { min-width: 0; }
+  .kicker {
+    font-family: "JetBrains Mono", monospace; font-size: .8rem; letter-spacing: .04em;
+    color: var(--accent); margin-bottom: 22px;
+  }
+  .kicker::before { content: "// "; color: var(--faint); }
+  h1 {
+    font-family: "Fraunces", serif; font-weight: 600;
+    font-size: clamp(2.7rem, 6.4vw, 4.3rem); line-height: 1.04;
+    color: var(--heading); letter-spacing: -0.015em; margin-bottom: 8px;
+  }
+  h1 .zh {
+    font-weight: 500; font-size: .55em; color: var(--accent);
+    vertical-align: .28em; margin-left: .35em; letter-spacing: .06em;
+  }
+  .role { font-size: 1.08rem; color: var(--text); margin: 18px 0 4px; font-weight: 500; }
+  .role a { border-bottom: 1px solid var(--line); }
+  .role a:hover { border-color: var(--accent); }
+  .advisor { color: var(--muted); font-size: .95rem; margin-bottom: 22px; }
+  .advisor a { border-bottom: 1px dotted var(--line); }
+  .hero-bio { color: var(--muted); max-width: 54ch; margin-bottom: 30px; }
+  .hero-bio strong { color: var(--text); font-weight: 600; }
+
+  .dh-card {
+    font-family: "JetBrains Mono", monospace; font-size: .78rem; line-height: 2;
+    color: var(--muted); border: 1px solid var(--line); border-radius: 12px;
+    background: var(--panel); padding: 14px 18px; margin-bottom: 34px; max-width: 560px;
+    overflow-x: auto; white-space: nowrap;
+  }
+  .dh-card .dh-title { color: var(--faint); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+  .dh-card .k { color: var(--accent); }
+  .dh-card .arrow { color: var(--accent-strong); }
+
+  .hero-links { display: flex; flex-wrap: wrap; gap: 12px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "JetBrains Mono", monospace; font-size: .8rem; letter-spacing: .03em;
+    border: 1px solid var(--line); border-radius: 999px; padding: 9px 18px;
+    color: var(--text); background: var(--panel);
+    transition: border-color .2s, color .2s, transform .2s, background .2s;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--accent-strong); transform: translateY(-2px); }
+  .pill svg { width: 15px; height: 15px; }
+  .pill.primary { background: var(--accent); border-color: var(--accent); color: #14100a; font-weight: 500; }
+  .pill.primary:hover { background: var(--accent-strong); color: #14100a; }
+
+  .avatar-wrap { text-align: center; }
+  .avatar-ring {
+    width: 100%; aspect-ratio: 1; border-radius: 50%; padding: 6px;
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(circle at 30% 20%, var(--accent-soft), transparent 60%);
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .avatar-ring::after {
+    content: ""; position: absolute; inset: -14px; border-radius: 50%;
+    border: 1px dashed color-mix(in srgb, var(--accent) 40%, transparent);
+    animation: spin 60s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .avatar-ring img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;
+  }
+  .avatar-caption {
+    margin-top: 22px; font-family: "JetBrains Mono", monospace;
+    font-size: .72rem; letter-spacing: .08em; color: var(--faint); text-transform: uppercase;
+  }
+  .avatar-caption span { color: var(--accent); }
+
+  /* ---------------- Sections ---------------- */
+  section { padding: 64px 0; scroll-margin-top: 84px; position: relative; z-index: 1; }
+  .sec-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 40px; }
+  .sec-num {
+    font-family: "JetBrains Mono", monospace; font-size: .82rem; color: var(--accent);
+    letter-spacing: .05em; flex-shrink: 0;
+  }
+  h2 {
+    font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(1.55rem, 3vw, 2.05rem);
+    color: var(--heading); letter-spacing: -0.01em;
+  }
+  .sec-rule { flex: 1; height: 1px; background: var(--line); align-self: center; }
+
+  /* Research */
+  .research-lead { font-size: 1.1rem; color: var(--text); max-width: 62ch; margin-bottom: 14px; }
+  .research-lead em { font-family: "Fraunces", serif; font-style: italic; color: var(--accent-strong); }
+  .research-sub { color: var(--muted); max-width: 66ch; margin-bottom: 30px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    font-family: "JetBrains Mono", monospace; font-size: .76rem; letter-spacing: .03em;
+    border: 1px solid var(--line); border-radius: 8px; padding: 7px 13px; color: var(--muted);
+    background: var(--panel); transition: color .2s, border-color .2s;
+  }
+  .chip:hover { color: var(--accent-strong); border-color: var(--accent); }
+  .chip::before { content: "# "; color: var(--accent); }
+
+  /* Publications */
+  .pub-group { margin-bottom: 44px; }
+  .pub-group-title {
+    font-family: "JetBrains Mono", monospace; font-size: .78rem; text-transform: uppercase;
+    letter-spacing: .14em; color: var(--faint); margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+  }
+  .pub-group-title::after { content: ""; flex: 1; height: 1px; background: var(--line-soft); }
+  .pub-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .pub {
+    border: 1px solid var(--line-soft); border-radius: 14px; padding: 20px 24px;
+    background: var(--panel); transition: border-color .25s, transform .25s, background .25s;
+  }
+  .pub:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); transform: translateY(-3px); background: var(--panel-strong); }
+  .pub-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .badge {
+    font-family: "JetBrains Mono", monospace; font-size: .68rem; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px;
+    color: var(--c);
+    background: color-mix(in srgb, var(--c) 13%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c) 38%, transparent);
+  }
+  .b-euro { --c: var(--c-euro); } .b-asia { --c: var(--c-asia); }
+  .b-esorics { --c: var(--c-esorics); } .b-iclr { --c: var(--c-iclr); } .b-tmc { --c: var(--c-tmc); }
+  .b-generic { --c: var(--accent); }
+  .pub-year { font-family: "JetBrains Mono", monospace; font-size: .76rem; color: var(--faint); }
+  .pub-link {
+    margin-left: auto; font-family: "JetBrains Mono", monospace; font-size: .72rem;
+    color: var(--muted); display: inline-flex; align-items: center; gap: 5px;
+    border-bottom: 1px solid transparent;
+  }
+  .pub-link:hover { color: var(--accent-strong); border-color: var(--accent); }
+  .pub-link svg { width: 12px; height: 12px; }
+  .pub-title {
+    font-family: "Fraunces", serif; font-weight: 600; font-size: 1.18rem; line-height: 1.4;
+    color: var(--heading); margin-bottom: 6px; letter-spacing: -0.005em;
+  }
+  .pub-title a:hover { color: var(--accent-strong); }
+  .pub-authors { font-size: .92rem; color: var(--muted); }
+  .pub-authors strong { color: var(--text); font-weight: 600; }
+  .pub-authors a { border-bottom: 1px dotted var(--line); }
+  .pub-venue-note { font-size: .85rem; color: var(--faint); font-style: italic; margin-top: 4px; }
+
+  /* Education timeline */
+  .timeline { list-style: none; position: relative; padding-left: 26px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--line));
+  }
+  .timeline li { position: relative; padding-bottom: 38px; }
+  .timeline li:last-child { padding-bottom: 0; }
+  .t-dot {
+    position: absolute; left: -26px; top: 8px; width: 11px; height: 11px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--accent);
+  }
+  .t-time { font-family: "JetBrains Mono", monospace; font-size: .76rem; color: var(--accent); letter-spacing: .05em; margin-bottom: 6px; }
+  .t-degree { font-family: "Fraunces", serif; font-weight: 600; font-size: 1.22rem; color: var(--heading); margin-bottom: 2px; }
+  .t-org { color: var(--muted); font-size: .98rem; margin-bottom: 6px; }
+  .t-org a { border-bottom: 1px solid var(--line); }
+  .t-org a:hover { border-color: var(--accent); }
+  .t-note { color: var(--muted); font-size: .92rem; }
+  .t-note a { border-bottom: 1px dotted var(--line); }
+  .t-tag {
+    display: inline-block; font-family: "JetBrains Mono", monospace; font-size: .68rem;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    background: var(--accent-soft); border-radius: 5px; padding: 2px 8px; margin-left: 8px;
+    vertical-align: .15em;
+  }
+
+  /* Teaching */
+  .teach-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .teach {
+    display: grid; grid-template-columns: 130px 1fr; gap: 8px 20px; align-items: baseline;
+    border: 1px solid var(--line-soft); border-radius: 14px; padding: 18px 24px; background: var(--panel);
+    transition: border-color .25s, transform .25s;
+  }
+  .teach:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); transform: translateY(-2px); }
+  .teach-code { font-family: "JetBrains Mono", monospace; font-size: .85rem; color: var(--accent); }
+  .teach-name { font-family: "Fraunces", serif; font-weight: 600; font-size: 1.1rem; color: var(--heading); }
+  .teach-meta { grid-column: 2; color: var(--muted); font-size: .88rem; }
+
+  /* Service */
+  .service-text { color: var(--muted); margin-bottom: 22px; max-width: 62ch; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--line-soft); padding: 44px 0 56px; margin-top: 40px;
+    position: relative; z-index: 1;
+  }
+  .foot-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: center; }
+  .foot-name { font-family: "Fraunces", serif; color: var(--heading); font-size: 1rem; }
+  .foot-mono { font-family: "JetBrains Mono", monospace; font-size: .74rem; color: var(--faint); letter-spacing: .03em; }
+  .foot-mono a { color: var(--muted); }
+  .foot-mono a:hover { color: var(--accent-strong); }
+  .foot-credit {
+    margin-top: 30px; text-align: center;
+    font-family: "JetBrains Mono", monospace; font-size: .7rem; letter-spacing: .08em;
+    color: var(--faint);
+  }
+  .foot-credit a { color: var(--muted); border-bottom: 1px dotted var(--line); padding-bottom: 1px; }
+  .foot-credit a:hover { color: var(--accent-strong); border-color: var(--accent); }
+
+  /* Visitor map (MapMyVisitors) — framed like a little terminal screen,
+     inner panel keeps a fixed deep-ink background in both themes so the
+     embedded widget (white caption text) always stays readable. */
+  .vmap-card {
+    max-width: 380px; margin: 0 auto 44px;
+    border: 1px solid var(--line); border-radius: 14px;
+    background: var(--bg-soft); overflow: hidden;
+    transition: border-color .25s;
+  }
+  .vmap-card:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+  .vmap-head {
+    font-family: "JetBrains Mono", monospace; font-size: .68rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--faint);
+    padding: 11px 16px; border-bottom: 1px solid var(--line-soft);
+    display: flex; align-items: center; gap: 9px;
+  }
+  .vmap-head .live-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 8px var(--accent);
+    animation: vmap-pulse 2.2s ease-in-out infinite; flex-shrink: 0;
+  }
+  @keyframes vmap-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .vmap-head .vmap-tag { margin-left: auto; color: color-mix(in srgb, var(--faint) 70%, transparent); }
+  .vmap-body {
+    background: #0d1017;
+    background-image:
+      linear-gradient(rgba(233, 231, 222, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(233, 231, 222, 0.035) 1px, transparent 1px);
+    background-size: 28px 28px;
+    margin: 12px; border-radius: 10px; padding: 14px 10px;
+    min-height: 150px;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vmap-head .live-dot { animation: none; }
+  }
+
+  /* Reveal animation (only when JS is on) */
+  html.js .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+  html.js .reveal.visible { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    html.js .reveal { opacity: 1; transform: none; transition: none; }
+    .avatar-ring::after { animation: none; }
+  }
+
+  /* Responsive */
+  @media (max-width: 820px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .avatar-wrap { max-width: 240px; }
+    .hero { padding: 140px 0 72px; }
+  }
+  @media (max-width: 700px) {
+    .nav-links a { display: none; }
+    .teach { grid-template-columns: 1fr; gap: 4px; }
+    .teach-meta { grid-column: 1; }
+    .pub { padding: 18px; }
+    .hero-links .pill { font-size: .74rem; padding: 8px 14px; }
+    .dh-card { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="#top">You Lyu<span class="zh">吕优</span></a>
+    <div class="nav-links">
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#education">Education</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#service">Service</a>
+      <button id="theme-toggle" aria-label="Toggle light / dark theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="container hero-grid">
+    <div>
+      <p class="kicker">cryptography · provable security · key exchange</p>
+      <h1>You Lyu<span class="zh">吕优</span></h1>
+      <p class="role">Ph.D. Student in Computer Science<br>
+        <a href="http://en.sjtu.edu.cn/" target="_blank" rel="noopener">Shanghai Jiao Tong University</a>
+      </p>
+      <p class="advisor">Advised by Prof. <a href="http://english.seiee.sjtu.edu.cn/english/detail/841_671.htm" target="_blank" rel="noopener">Shengli Liu</a></p>
+      <p class="hero-bio">I work on <strong>public-key cryptography with provable security</strong>. In particular, I am interested in the design and analysis of <strong>key exchange protocols</strong> — from two-message AKE to password-authenticated and post-quantum secure key exchange in the UC framework.</p>
+
+      <div class="dh-card" aria-hidden="true">
+        <span class="dh-title">diffie–hellman, est. 1976</span>
+        Alice <span class="arrow">── g<sup>x</sup> ──▶</span> Bob <span class="arrow">── g<sup>y</sup> ──▶</span> Alice&nbsp;&nbsp;·&nbsp;&nbsp;<span class="k">k = g<sup>xy</sup> mod p</span>
+      </div>
+
+      <div class="hero-links">
+        <a class="pill primary" href="mailto:vergil@sjtu.edu.cn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+          vergil at sjtu dot edu dot cn
+        </a>
+        <a class="pill" href="https://github.com/LVYOUyw" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.53-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.83 1.18 3.09 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+          GitHub
+        </a>
+        <a class="pill" href="http://en.sjtu.edu.cn/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>
+          SJTU
+        </a>
+      </div>
+    </div>
+
+    <div class="avatar-wrap">
+      <div class="avatar-ring">
+        <img src="assets/avatar.jpg" alt="Portrait of You Lyu" width="800" height="800" fetchpriority="high">
+      </div>
+      <p class="avatar-caption"><span>◈</span> Shanghai, China</p>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ================= Research ================= -->
+  <section id="research">
+    <div class="container">
+      <div class="sec-head reveal">
+        <span class="sec-num">§01</span><h2>Research</h2><span class="sec-rule"></span>
+      </div>
+      <div id="research-content">
+        <noscript><p class="research-sub">内容需要启用 JavaScript 渲染 / Content requires JavaScript. See data/site-data.js.</p></noscript>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Publications ================= -->
+  <section id="publications">
+    <div class="container">
+      <div class="sec-head reveal">
+        <span class="sec-num">§02</span><h2>Publications</h2><span class="sec-rule"></span>
+      </div>
+
+      <div id="publications-content">
+        <noscript><p class="research-sub">Publications require JavaScript to render. Source data: data/site-data.js</p></noscript>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Education ================= -->
+  <section id="education">
+    <div class="container">
+      <div class="sec-head reveal">
+        <span class="sec-num">§03</span><h2>Education</h2><span class="sec-rule"></span>
+      </div>
+      <div id="education-content"></div>
+    </div>
+  </section>
+
+  <!-- ================= Teaching ================= -->
+  <section id="teaching">
+    <div class="container">
+      <div class="sec-head reveal">
+        <span class="sec-num">§04</span><h2>Teaching</h2><span class="sec-rule"></span>
+      </div>
+      <div id="teaching-content"></div>
+    </div>
+  </section>
+
+  <!-- ================= Service ================= -->
+  <section id="service">
+    <div class="container">
+      <div class="sec-head reveal">
+        <span class="sec-num">§05</span><h2>Academic Service</h2><span class="sec-rule"></span>
+      </div>
+      <div id="service-content"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="vmap-card">
+      <div class="vmap-head"><span class="live-dot"></span>Visitor Map<span class="vmap-tag">live</span></div>
+      <div class="vmap-body">
+        <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=63b0aAwWCP1BZo0PfE_VPz8Jh8tLhw-j_V3EltzI3UY&cl=ffffff&w=a"></script>
+      </div>
+    </div>
+    <div class="foot-inner">
+      <span class="foot-name">You Lyu · 吕优</span>
+      <span class="foot-mono"><a href="mailto:vergil@sjtu.edu.cn">vergil [at] sjtu [dot] edu [dot] cn</a></span>
+      <span class="foot-mono">Last updated: <span id="last-updated">Sep 2026</span> · GitHub Pages</span>
+    </div>
+    <div class="foot-credit">Designed by <a href="https://www.kimi.com" target="_blank" rel="noopener">Kimi</a> · Moonshot AI</div>
+  </div>
+</footer>
+
+<script src="data/site-data.js"></script>
+<script src="assets/site-render.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Theme toggle ---------- */
+  var root = document.documentElement;
+  var toggle = document.getElementById("theme-toggle");
+  toggle.addEventListener("click", function () {
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("yl-theme", next); } catch (e) {}
+    refreshGlyphColors();
+  });
+
+  /* ---------- Reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("visible"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -30px 0px" });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add("visible"); });
+  }
+
+  /* ---------- Floating cryptography glyphs ---------- */
+  var canvas = document.getElementById("bg-canvas");
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var GLYPHS = [
+    "g", "x", "y", "ℤ", "𝔾", "ℤp*", "mod p", "⊕", "κ", "λ", "Σ", "Π",
+    "{0,1}κ", "pk", "sk", "ek", "dk", "H(x)", "Enc", "Dec", "α", "β",
+    "γ", "ψ", "$", "←", "∧", "0", "1", "q", "e", "τ", "A", "B", "∎"
+  ];
+  var glyphColor = { base: "233,231,222", accent: "217,166,72" };
+  var particles = [];
+  var ctx = canvas.getContext("2d");
+  var W = 0, H = 0, rafId = null;
+
+  function refreshGlyphColors() {
+    var cs = getComputedStyle(root);
+    var b = cs.getPropertyValue("--glyph").trim();
+    var a = cs.getPropertyValue("--glyph-accent").trim();
+    if (b) glyphColor.base = b;
+    if (a) glyphColor.accent = a;
+  }
+
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    seed();
+  }
+
+  function seed() {
+    var count = Math.min(64, Math.max(24, Math.floor((W * H) / 26000)));
+    particles = [];
+    for (var i = 0; i < count; i++) particles.push(makeParticle(true));
+  }
+
+  function makeParticle(anywhere) {
+    var accented = Math.random() < 0.22;
+    return {
+      x: Math.random() * W,
+      y: anywhere ? Math.random() * H : H + 30 + Math.random() * 80,
+      size: 11 + Math.random() * 17,
+      speed: 0.08 + Math.random() * 0.22,
+      sway: 0.2 + Math.random() * 0.5,
+      phase: Math.random() * Math.PI * 2,
+      alpha: accented ? 0.05 + Math.random() * 0.06 : 0.028 + Math.random() * 0.045,
+      color: accented ? glyphColor.accent : glyphColor.base,
+      glyph: GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
+    };
+  }
+
+  var t0 = performance.now();
+  function draw(now) {
+    var t = (now - t0) / 1000;
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.y -= p.speed;
+      if (p.y < -40) { particles[i] = makeParticle(false); continue; }
+      var x = p.x + Math.sin(t * p.sway + p.phase) * 14;
+      ctx.font = p.size + 'px "JetBrains Mono", monospace';
+      ctx.fillStyle = "rgba(" + p.color + "," + p.alpha + ")";
+      ctx.fillText(p.glyph, x, p.y);
+    }
+    rafId = requestAnimationFrame(draw);
+  }
+
+  function start() { if (rafId === null && !reduceMotion) rafId = requestAnimationFrame(draw); }
+  function stop() { if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; } }
+
+  if (!reduceMotion && ctx) {
+    refreshGlyphColors();
+    resize();
+    window.addEventListener("resize", resize);
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stop(); else start();
+    });
+    start();
+  } else if (canvas) {
+    canvas.style.display = "none";
+  }
+})();
+</script>
+</body>
+</html>

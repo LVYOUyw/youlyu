@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>主页内容编辑器 · You Lyu</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0c11">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%230a0c11"/><text x="32" y="42" font-family="Georgia,serif" font-size="30" fill="%23d9a648" text-anchor="middle">YL</text></svg>'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ---------------- Theme tokens（与 index.html 一致，固定深色） ---------------- */
+  :root, [data-theme="dark"] {
+    --bg: #0a0c11;
+    --bg-soft: #10131b;
+    --panel: rgba(255, 255, 255, 0.028);
+    --panel-strong: rgba(255, 255, 255, 0.05);
+    --line: rgba(233, 231, 222, 0.10);
+    --line-soft: rgba(233, 231, 222, 0.06);
+    --text: #e9e7de;
+    --heading: #f4f2ea;
+    --muted: #979da9;
+    --faint: #6b7280;
+    --accent: #d9a648;
+    --accent-strong: #e7bc62;
+    --accent-soft: rgba(217, 166, 72, 0.12);
+    --grid-line: rgba(233, 231, 222, 0.045);
+    --shadow: 0 18px 50px -18px rgba(0, 0, 0, 0.65);
+    --danger: #e06c6c;
+    --danger-soft: rgba(224, 108, 108, 0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent); color: var(--bg); }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--accent-strong); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  .container { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+  /* ---------------- 顶部 ---------------- */
+  .ed-top {
+    padding: 72px 0 40px; position: relative;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .ed-top::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 90% at 50% 20%, black 25%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 20%, black 25%, transparent 78%);
+  }
+  .kicker {
+    font-family: "JetBrains Mono", monospace; font-size: .8rem; letter-spacing: .04em;
+    color: var(--accent); margin-bottom: 16px;
+  }
+  .kicker::before { content: "// "; color: var(--faint); }
+  h1 {
+    font-family: "Fraunces", serif; font-weight: 600;
+    font-size: clamp(1.9rem, 4.6vw, 2.8rem); line-height: 1.1;
+    color: var(--heading); letter-spacing: -0.015em; margin-bottom: 14px;
+  }
+  .ed-steps {
+    font-family: "JetBrains Mono", monospace; font-size: .82rem; color: var(--muted);
+    border: 1px solid var(--line); border-radius: 12px; background: var(--panel);
+    padding: 12px 18px; margin-bottom: 24px; overflow-x: auto; white-space: nowrap;
+  }
+  .ed-steps b { color: var(--accent); font-weight: 500; }
+  .ed-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "JetBrains Mono", monospace; font-size: .82rem; letter-spacing: .03em;
+    border: 1px solid var(--line); border-radius: 999px; padding: 10px 20px;
+    color: var(--text); background: var(--panel); cursor: pointer;
+    transition: border-color .2s, color .2s, transform .2s, background .2s;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--accent-strong); transform: translateY(-2px); }
+  .pill.primary { background: var(--accent); border-color: var(--accent); color: #14100a; font-weight: 500; }
+  .pill.primary:hover { background: var(--accent-strong); color: #14100a; }
+  .pill.danger:hover { border-color: var(--danger); color: var(--danger); }
+  .pill.flash { border-color: var(--accent); color: var(--accent-strong); background: var(--accent-soft); }
+  .pill.primary.flash { background: var(--accent-strong); color: #14100a; }
+
+  /* ---------------- 分区卡片 ---------------- */
+  main { padding: 40px 0 72px; }
+  .ed-section {
+    border: 1px solid var(--line-soft); border-radius: 16px;
+    background: var(--panel); padding: 26px 28px; margin-bottom: 26px;
+  }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; }
+  .sec-num {
+    font-family: "JetBrains Mono", monospace; font-size: .8rem; color: var(--accent);
+    letter-spacing: .05em; flex-shrink: 0;
+  }
+  h2 {
+    font-family: "Fraunces", serif; font-weight: 600; font-size: 1.4rem;
+    color: var(--heading); letter-spacing: -0.01em;
+  }
+  .sec-rule { flex: 1; height: 1px; background: var(--line); align-self: center; }
+  .sec-hint { color: var(--faint); font-size: .86rem; margin-bottom: 18px; }
+  .sec-hint code {
+    font-family: "JetBrains Mono", monospace; font-size: .78rem;
+    background: var(--panel-strong); border: 1px solid var(--line-soft);
+    border-radius: 5px; padding: 1px 6px; color: var(--muted);
+  }
+
+  /* ---------------- 表单控件 ---------------- */
+  .field { display: block; margin-bottom: 14px; }
+  .field-label {
+    display: block; font-family: "JetBrains Mono", monospace; font-size: .72rem;
+    letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-bottom: 6px;
+  }
+  input[type="text"], input[type="number"], input:not([type]), select, textarea {
+    width: 100%; background: var(--bg-soft); color: var(--text);
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px 14px; font-family: "Inter", sans-serif; font-size: .92rem;
+    line-height: 1.55; transition: border-color .2s, background .2s;
+  }
+  textarea { resize: vertical; min-height: 64px; font-family: "JetBrains Mono", monospace; font-size: .84rem; }
+  input:focus, select:focus, textarea:focus {
+    outline: none; border-color: var(--accent); background: rgba(217, 166, 72, 0.04);
+  }
+  input::placeholder, textarea::placeholder { color: var(--faint); opacity: .75; }
+  select { cursor: pointer; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  /* ---------------- 条目卡片（论文 / 教育 / 教学） ---------------- */
+  .item-card {
+    border: 1px solid var(--line-soft); border-radius: 14px;
+    background: var(--panel); margin-bottom: 14px; overflow: hidden;
+    transition: border-color .25s, background .25s;
+  }
+  .item-card:hover { border-color: var(--line); }
+  .item-card.invalid { border-color: var(--danger); background: var(--danger-soft); }
+  .item-card-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 18px; cursor: pointer; user-select: none;
+  }
+  .item-card-head:hover { background: var(--panel-strong); }
+  .collapse-arrow {
+    color: var(--faint); font-size: .8rem; transition: transform .2s; flex-shrink: 0;
+  }
+  .item-card.open .collapse-arrow { transform: rotate(90deg); }
+  .head-badge {
+    font-family: "JetBrains Mono", monospace; font-size: .68rem; font-weight: 500;
+    letter-spacing: .1em; text-transform: uppercase; padding: 3px 10px; border-radius: 6px;
+    color: var(--accent); background: var(--accent-soft);
+    border: 1px solid rgba(217, 166, 72, 0.38); flex-shrink: 0;
+  }
+  .head-year { font-family: "JetBrains Mono", monospace; font-size: .76rem; color: var(--faint); flex-shrink: 0; }
+  .head-code { font-family: "JetBrains Mono", monospace; font-size: .82rem; color: var(--accent); flex-shrink: 0; }
+  .head-title {
+    font-family: "Fraunces", serif; font-weight: 500; font-size: .98rem; color: var(--heading);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+  }
+  .item-card-body { display: none; padding: 6px 18px 18px; border-top: 1px solid var(--line-soft); }
+  .item-card.open .item-card-body { display: block; padding-top: 16px; }
+
+  .card-ops { margin-left: auto; display: flex; gap: 6px; flex-shrink: 0; }
+  .card-ops button {
+    font-family: "JetBrains Mono", monospace; font-size: .72rem;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 7px;
+    color: var(--muted); padding: 5px 10px; cursor: pointer;
+    transition: color .2s, border-color .2s;
+  }
+  .card-ops button:hover { color: var(--accent-strong); border-color: var(--accent); }
+  .card-ops .op-del:hover { color: var(--danger); border-color: var(--danger); }
+
+  .btn-add {
+    width: 100%; font-family: "JetBrains Mono", monospace; font-size: .82rem;
+    border: 1px dashed var(--line); border-radius: 12px; background: transparent;
+    color: var(--muted); padding: 13px; cursor: pointer;
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  .btn-add:hover { color: var(--accent-strong); border-color: var(--accent); background: var(--accent-soft); }
+
+  /* ---------------- 更新时间行 ---------------- */
+  .updated-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+  .updated-row .field { flex: 1; min-width: 180px; margin-bottom: 0; }
+  .btn-mini {
+    font-family: "JetBrains Mono", monospace; font-size: .78rem;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    color: var(--text); padding: 10px 16px; cursor: pointer; white-space: nowrap;
+    transition: color .2s, border-color .2s;
+  }
+  .btn-mini:hover { color: var(--accent-strong); border-color: var(--accent); }
+  .chk-row { display: flex; align-items: center; gap: 9px; margin-top: 14px; color: var(--muted); font-size: .9rem; }
+  .chk-row input { accent-color: var(--accent); width: 16px; height: 16px; cursor: pointer; }
+  .chk-row label { cursor: pointer; }
+
+  /* ---------------- 导出区 ---------------- */
+  #export-preview {
+    width: 100%; min-height: 220px; font-family: "JetBrains Mono", monospace;
+    font-size: .78rem; line-height: 1.6; white-space: pre;
+    background: var(--bg-soft); color: var(--muted);
+    border: 1px solid var(--line); border-radius: 12px; padding: 16px;
+  }
+  #export-warnings {
+    border: 1px solid var(--danger); background: var(--danger-soft);
+    border-radius: 12px; padding: 14px 18px; margin-bottom: 16px;
+    font-size: .88rem; color: #f0b4b4;
+  }
+  #export-warnings .warn-title { font-weight: 600; margin-bottom: 6px; color: var(--danger); }
+  #export-warnings ul { padding-left: 20px; }
+  #export-stats {
+    font-family: "JetBrains Mono", monospace; font-size: .78rem; color: var(--faint);
+    letter-spacing: .04em; margin-top: 14px;
+  }
+
+  /* ---------------- 页脚 ---------------- */
+  footer {
+    border-top: 1px solid var(--line-soft); padding: 30px 0 44px;
+    font-family: "JetBrains Mono", monospace; font-size: .74rem; color: var(--faint);
+    text-align: center; letter-spacing: .04em;
+  }
+  footer a { color: var(--muted); border-bottom: 1px dotted var(--line); }
+  footer a:hover { color: var(--accent-strong); border-color: var(--accent); }
+
+  /* ---------------- 移动端 ---------------- */
+  @media (max-width: 640px) {
+    .grid-2 { grid-template-columns: 1fr; gap: 0; }
+    .ed-section { padding: 20px 18px; }
+    .ed-steps { white-space: normal; }
+    .head-title { display: none; }
+    .ed-top { padding: 52px 0 32px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="ed-top">
+  <div class="container">
+    <p class="kicker">site-data.js editor</p>
+    <h1>主页内容编辑器</h1>
+    <p class="ed-steps"><b>①</b> 修改内容 &nbsp;→&nbsp; <b>②</b> 导出 site-data.js &nbsp;→&nbsp; <b>③</b> 替换仓库中 data/site-data.js &nbsp;→&nbsp; <b>④</b> git commit &amp;&amp; push</p>
+    <div class="ed-actions">
+      <button id="btn-export" class="pill primary" type="button">⬇ 导出 site-data.js</button>
+      <button id="btn-copy" class="pill" type="button">⧉ 复制</button>
+      <button id="btn-reset" class="pill danger" type="button">↺ 重置</button>
+      <a class="pill" href="index.html">← 返回主页</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ================= 研究方向 ================= -->
+  <section class="ed-section">
+    <div class="sec-head"><span class="sec-num">§01</span><h2>研究方向</h2><span class="sec-rule"></span></div>
+    <p class="sec-hint">允许使用简单 HTML（如 <code>&lt;em&gt;</code>、<code>&lt;a&gt;</code>）。</p>
+    <label class="field">
+      <span class="field-label">主述（lead）</span>
+      <textarea id="research-lead" rows="3"></textarea>
+    </label>
+    <label class="field">
+      <span class="field-label">补充说明（sub）</span>
+      <textarea id="research-sub" rows="4"></textarea>
+    </label>
+    <label class="field">
+      <span class="field-label">关键词 chips（一行一个）</span>
+      <textarea id="research-chips" rows="5"></textarea>
+    </label>
+  </section>
+
+  <!-- ================= 论文列表 ================= -->
+  <section class="ed-section">
+    <div class="sec-head"><span class="sec-num">§02</span><h2>论文列表</h2><span class="sec-rule"></span></div>
+    <p class="sec-hint">点击卡片标题可折叠 / 展开；标 <code>*</code> 的字段为空时卡片会变红。作者格式：<code>姓名 | 主页链接</code>（链接可省略），一行一个。</p>
+    <datalist id="venue-list">
+      <option value="EUROCRYPT"></option>
+      <option value="ASIACRYPT"></option>
+      <option value="ESORICS"></option>
+      <option value="ICLR"></option>
+      <option value="IEEE TMC"></option>
+      <option value="CRYPTO"></option>
+      <option value="PKC"></option>
+      <option value="CCS"></option>
+    </datalist>
+    <div id="pubs-container"></div>
+    <button id="btn-add-pub" class="btn-add" type="button">＋ 添加论文</button>
+  </section>
+
+  <!-- ================= 教育经历 ================= -->
+  <section class="ed-section">
+    <div class="sec-head"><span class="sec-num">§03</span><h2>教育经历</h2><span class="sec-rule"></span></div>
+    <p class="sec-hint">备注字段允许 HTML（如导师主页链接）。</p>
+    <div id="edu-container"></div>
+    <button id="btn-add-edu" class="btn-add" type="button">＋ 添加教育经历</button>
+  </section>
+
+  <!-- ================= 教学经历 ================= -->
+  <section class="ed-section">
+    <div class="sec-head"><span class="sec-num">§04</span><h2>教学经历</h2><span class="sec-rule"></span></div>
+    <div id="teach-container"></div>
+    <button id="btn-add-teach" class="btn-add" type="button">＋ 添加教学经历</button>
+  </section>
+
+  <!-- ================= 学术服务 ================= -->
+  <section class="ed-section">
+    <div class="sec-head"><span class="sec-num">§05</span><h2>学术服务</h2><span class="sec-rule"></span></div>
+    <label class="field">
+      <span class="field-label">说明文字（一行文本，允许 HTML）</span>
+      <input id="service-text" type="text">
+    </label>
+    <label class="field">
+      <span class="field-label">服务条目 chips（一行一个）</span>
+      <textarea id="service-items" rows="4"></textarea>
+    </label>
+  </section>
+
+  <!-- ================= 页脚更新时间 ================= -->
+  <section class="ed-section">
+    <div class="sec-head"><span class="sec-num">§06</span><h2>页脚更新时间</h2><span class="sec-rule"></span></div>
+    <div class="updated-row">
+      <label class="field">
+        <span class="field-label">显示文字（如 Sep 2026）</span>
+        <input id="site-updated" type="text" placeholder="Sep 2026">
+      </label>
+      <button id="btn-current-month" class="btn-mini" type="button">设为当前月份</button>
+    </div>
+    <div class="chk-row">
+      <input id="chk-auto-update" type="checkbox" checked>
+      <label for="chk-auto-update">导出时自动更新为当前月份</label>
+    </div>
+  </section>
+
+  <!-- ================= 导出预览 ================= -->
+  <section class="ed-section">
+    <div class="sec-head"><span class="sec-num">§07</span><h2>导出预览</h2><span class="sec-rule"></span></div>
+    <div id="export-warnings" style="display:none"></div>
+    <textarea id="export-preview" readonly spellcheck="false"></textarea>
+    <p id="export-stats"></p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    修改导出后，替换仓库中的 <a href="data/site-data.js">data/site-data.js</a> 并 push 即可上线 · <a href="index.html">返回主页</a>
+  </div>
+</footer>
+
+<script src="data/site-data.js"></script>
+<script src="assets/editor.js"></script>
+<script>SiteEditor.init();</script>
+</body>
+</html>
