@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
 <meta property="og:title" content="You Lyu (吕优) — Cryptography Researcher">
 <meta property="og:description" content="Ph.D. student @ SJTU · Public-key cryptography with provable security · Key exchange protocols">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#0a0c11">
+<meta name="theme-color" content="#f6f3ec">
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%230a0c11"/><text x="32" y="42" font-family="Georgia,serif" font-size="30" fill="%23d9a648" text-anchor="middle">YL</text></svg>'>
 <script>
   // Apply saved theme before first paint to avoid flash.
@@ -26,6 +26,7 @@
 <style>
   /* ---------------- Theme tokens ---------------- */
   :root, [data-theme="dark"] {
+    color-scheme: dark;
     --bg: #0a0c11;
     --bg-soft: #10131b;
     --panel: rgba(255, 255, 255, 0.028);
@@ -50,6 +51,7 @@
     --c-tmc: #fb8ba4;
   }
   [data-theme="light"] {
+    color-scheme: light;
     --bg: #f6f3ec;
     --bg-soft: #efece2;
     --panel: rgba(28, 30, 38, 0.025);
@@ -224,10 +226,6 @@
   /* ---------------- Sections ---------------- */
   section { padding: 64px 0; scroll-margin-top: 84px; position: relative; z-index: 1; }
   .sec-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 40px; }
-  .sec-num {
-    font-family: "JetBrains Mono", monospace; font-size: .82rem; color: var(--accent);
-    letter-spacing: .05em; flex-shrink: 0;
-  }
   h2 {
     font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(1.55rem, 3vw, 2.05rem);
     color: var(--heading); letter-spacing: -0.01em;
@@ -257,13 +255,18 @@
   .pub-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
   .pub {
     border: 1px solid var(--line-soft); border-radius: 14px; padding: 20px 24px;
+    border-left: 3px solid color-mix(in srgb, var(--c, var(--accent)) 55%, transparent);
     background: var(--panel); transition: border-color .25s, transform .25s, background .25s;
   }
-  .pub:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); transform: translateY(-3px); background: var(--panel-strong); }
+  .pub:hover {
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    border-left-color: color-mix(in srgb, var(--c, var(--accent)) 80%, transparent);
+    transform: translateY(-3px); background: var(--panel-strong);
+  }
   .pub-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .badge {
-    font-family: "JetBrains Mono", monospace; font-size: .68rem; font-weight: 500;
-    letter-spacing: .1em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px;
+    font-family: "JetBrains Mono", monospace; font-size: .78rem; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase; padding: 5px 12px; border-radius: 8px;
     color: var(--c);
     background: color-mix(in srgb, var(--c) 13%, transparent);
     border: 1px solid color-mix(in srgb, var(--c) 38%, transparent);
@@ -271,7 +274,7 @@
   .b-euro { --c: var(--c-euro); } .b-asia { --c: var(--c-asia); }
   .b-esorics { --c: var(--c-esorics); } .b-iclr { --c: var(--c-iclr); } .b-tmc { --c: var(--c-tmc); }
   .b-generic { --c: var(--accent); }
-  .pub-year { font-family: "JetBrains Mono", monospace; font-size: .76rem; color: var(--faint); }
+  .pub-year { font-family: "JetBrains Mono", monospace; font-size: .8rem; color: var(--muted); }
   .pub-link {
     margin-left: auto; font-family: "JetBrains Mono", monospace; font-size: .72rem;
     color: var(--muted); display: inline-flex; align-items: center; gap: 5px;
@@ -349,9 +352,12 @@
   .foot-credit a { color: var(--muted); border-bottom: 1px dotted var(--line); padding-bottom: 1px; }
   .foot-credit a:hover { color: var(--accent-strong); border-color: var(--accent); }
 
-  /* Visitor map (MapMyVisitors) — framed like a little terminal screen,
-     inner panel keeps a fixed deep-ink background in both themes so the
-     embedded widget (white caption text) always stays readable. */
+  /* Visitor map (MapMyVisitors) — collapsible <details> card, collapsed by
+     default; the header row is the <summary> toggle with a rotating chevron.
+     The widget script stays mounted inside .vmap-body, so it keeps loading
+     and counting visits even while the card is collapsed. The inner panel
+     keeps a fixed deep-ink background in both themes so the embedded widget
+     (white caption text) always stays readable. */
   .vmap-card {
     max-width: 380px; margin: 0 auto 44px;
     border: 1px solid var(--line); border-radius: 14px;
@@ -359,12 +365,22 @@
     transition: border-color .25s;
   }
   .vmap-card:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+  summary.vmap-head { list-style: none; cursor: pointer; user-select: none; }
+  .vmap-head::-webkit-details-marker { display: none; }
   .vmap-head {
     font-family: "JetBrains Mono", monospace; font-size: .68rem; letter-spacing: .14em;
     text-transform: uppercase; color: var(--faint);
-    padding: 11px 16px; border-bottom: 1px solid var(--line-soft);
+    padding: 11px 16px; border-bottom: 1px solid transparent;
     display: flex; align-items: center; gap: 9px;
+    transition: border-color .25s, color .2s;
   }
+  .vmap-head:hover { color: var(--muted); }
+  .vmap-card[open] .vmap-head { border-bottom-color: var(--line-soft); }
+  .vmap-head::after {
+    content: "›"; font-size: .9rem; line-height: 1; color: var(--faint);
+    transition: transform .25s ease;
+  }
+  .vmap-card[open] .vmap-head::after { transform: rotate(90deg); }
   .vmap-head .live-dot {
     width: 7px; height: 7px; border-radius: 50%;
     background: var(--accent); box-shadow: 0 0 8px var(--accent);
@@ -372,6 +388,8 @@
   }
   @keyframes vmap-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
   .vmap-head .vmap-tag { margin-left: auto; color: color-mix(in srgb, var(--faint) 70%, transparent); }
+  @keyframes vmap-open { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  .vmap-card[open] .vmap-body { animation: vmap-open .3s ease; }
   .vmap-body {
     background: #0d1017;
     background-image:
@@ -385,6 +403,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .vmap-head .live-dot { animation: none; }
+    .vmap-card[open] .vmap-body { animation: none; }
   }
 
   /* Reveal animation (only when JS is on) */
@@ -481,7 +500,7 @@
   <section id="research">
     <div class="container">
       <div class="sec-head reveal">
-        <span class="sec-num">§01</span><h2>Research</h2><span class="sec-rule"></span>
+        <h2>Research</h2><span class="sec-rule"></span>
       </div>
       <div id="research-content">
         <noscript><p class="research-sub">内容需要启用 JavaScript 渲染 / Content requires JavaScript. See data/site-data.js.</p></noscript>
@@ -493,7 +512,7 @@
   <section id="publications">
     <div class="container">
       <div class="sec-head reveal">
-        <span class="sec-num">§02</span><h2>Publications</h2><span class="sec-rule"></span>
+        <h2>Publications</h2><span class="sec-rule"></span>
       </div>
 
       <div id="publications-content">
@@ -506,7 +525,7 @@
   <section id="education">
     <div class="container">
       <div class="sec-head reveal">
-        <span class="sec-num">§03</span><h2>Education</h2><span class="sec-rule"></span>
+        <h2>Education</h2><span class="sec-rule"></span>
       </div>
       <div id="education-content"></div>
     </div>
@@ -516,7 +535,7 @@
   <section id="teaching">
     <div class="container">
       <div class="sec-head reveal">
-        <span class="sec-num">§04</span><h2>Teaching</h2><span class="sec-rule"></span>
+        <h2>Teaching</h2><span class="sec-rule"></span>
       </div>
       <div id="teaching-content"></div>
     </div>
@@ -526,7 +545,7 @@
   <section id="service">
     <div class="container">
       <div class="sec-head reveal">
-        <span class="sec-num">§05</span><h2>Academic Service</h2><span class="sec-rule"></span>
+        <h2>Academic Service</h2><span class="sec-rule"></span>
       </div>
       <div id="service-content"></div>
     </div>
@@ -535,12 +554,12 @@
 
 <footer>
   <div class="container">
-    <div class="vmap-card">
-      <div class="vmap-head"><span class="live-dot"></span>Visitor Map<span class="vmap-tag">live</span></div>
+    <details class="vmap-card">
+      <summary class="vmap-head"><span class="live-dot"></span>Visitor Map<span class="vmap-tag">live</span></summary>
       <div class="vmap-body">
         <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=63b0aAwWCP1BZo0PfE_VPz8Jh8tLhw-j_V3EltzI3UY&cl=ffffff&w=a"></script>
       </div>
-    </div>
+    </details>
     <div class="foot-inner">
       <span class="foot-name">You Lyu · 吕优</span>
       <span class="foot-mono"><a href="mailto:vergil@sjtu.edu.cn">vergil [at] sjtu [dot] edu [dot] cn</a></span>

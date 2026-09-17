@@ -50,5 +50,6 @@ npm run dev
 
 ## 其他说明
 
-- 访客地图（MapMyVisitors）已保留在页脚，装在固定深墨底色的小卡片里，明/暗主题下都协调；嵌入代码与旧版完全一致（`cl=ffffff` 白色文字）。地图内部配色由第三方服务控制，如需换配色可在 mapmyvisitors.com 重新生成嵌入码，替换 `index.html` 页脚中的 `<script id="mapmyvisitors">` 一行即可。
+- 访客地图（MapMyVisitors）已保留在页脚，装在固定深墨底色的小卡片里，明/暗主题下都协调；卡片现在可折叠，默认收起，点击标题栏即可展开，收起时统计脚本仍正常加载计数。嵌入代码与旧版完全一致（`cl=ffffff` 白色文字）。地图内部配色由第三方服务控制，如需换配色可在 mapmyvisitors.com 重新生成嵌入码，替换 `index.html` 页脚中的 `<script id="mapmyvisitors">` 一行即可。
+- 站点对首次访问者现在默认使用浅色主题；再次访问时沿用本地保存的明/暗选择（存于 localStorage 的 `yl-theme`），右上角按钮可随时切换。
 - 头像 `assets/avatar.jpg` 由 `photo_ly.jpg`（5472x3648 原图）裁剪而来；如需替换，直接替换 `assets/avatar.jpg` 即可（建议同时替换 `avatar-small.jpg`）。

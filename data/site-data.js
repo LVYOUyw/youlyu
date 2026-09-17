@@ -25,7 +25,7 @@ const SITE_DATA = {
   "updated": "Sep 2026",
   "research": {
     "lead": "My research focuses on <em>public-key cryptography with provable security</em> — reducing the security of real-world protocols to well-studied mathematical hardness assumptions.",
-    "sub": "In particular, I am interested in the design of key exchange protocols: authenticated key exchange (AKE), password-authenticated key exchange (PAKE), universal composability, and security against quantum adversaries. I also work on authentication from biometric data and learning-augmented online algorithms.",
+    "sub": "In particular, I am interested in the design of key exchange protocols: authenticated key exchange (AKE), password-authenticated key exchange (PAKE), universal composability, and security against quantum adversaries.",
     "chips": [
       "Public-Key Cryptography",
       "Provable Security",

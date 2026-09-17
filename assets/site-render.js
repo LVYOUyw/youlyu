@@ -60,7 +60,7 @@
   function renderPub(p) {
     var label = p.linkLabel || linkLabel(p.link);
     return (
-      '<li class="pub reveal">' +
+      '<li class="pub reveal ' + badgeClass(p.venue) + '">' +
         '<div class="pub-top">' +
           '<span class="badge ' + badgeClass(p.venue) + '">' + esc(p.venue) + "</span>" +
           '<span class="pub-year">' + esc(p.year) + "</span>" +
