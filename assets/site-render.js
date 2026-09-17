@@ -60,9 +60,9 @@
   function renderPub(p) {
     var label = p.linkLabel || linkLabel(p.link);
     return (
-      '<li class="pub reveal ' + badgeClass(p.venue) + '">' +
+      '<li class="pub reveal ' + badgeClass(p.venue) + '" data-venue="' + esc(p.venue) + '">' +
         '<div class="pub-top">' +
-          '<span class="badge ' + badgeClass(p.venue) + '">' + esc(p.venue) + "</span>" +
+          '<button type="button" class="badge ' + badgeClass(p.venue) + '" aria-pressed="false" title="Filter by ' + esc(p.venue) + '">' + esc(p.venue) + "</button>" +
           '<span class="pub-year">' + esc(p.year) + "</span>" +
           '<a class="pub-link"' + ext(p.link) + ">" + esc(label) + " " + ARROW + "</a>" +
         "</div>" +
@@ -101,6 +101,59 @@
       grp.appendChild(ul);
       pc.appendChild(grp);
     });
+
+    /* 会场过滤：点徽章只显示该会议/期刊的论文，再点一次或 Esc 恢复 */
+    if (SITE_DATA.publications.length) {
+      var activeVenue = null;
+      var filterBar = el(
+        '<p class="pub-filter" id="pub-filter" hidden>Showing papers from ' +
+        '<button type="button" class="pub-filter-venue badge" title="Clear filter"></button> ' +
+        '<button type="button" class="pub-filter-clear">× show all</button></p>'
+      );
+      var filterVenueBtn = filterBar.querySelector(".pub-filter-venue");
+      pc.insertBefore(filterBar, pc.firstChild);
+
+      function applyFilter(venue) {
+        activeVenue = venue || null;
+        var pubs = pc.querySelectorAll(".pub");
+        for (var i = 0; i < pubs.length; i++) {
+          pubs[i].hidden = !!(activeVenue && pubs[i].getAttribute("data-venue") !== activeVenue);
+        }
+        var grps = pc.querySelectorAll(".pub-group");
+        for (var j = 0; j < grps.length; j++) {
+          grps[j].hidden = !grps[j].querySelector(".pub:not([hidden])");
+        }
+        filterBar.hidden = !activeVenue;
+        if (activeVenue) {
+          filterVenueBtn.textContent = activeVenue;
+          filterVenueBtn.className = "pub-filter-venue badge " + badgeClass(activeVenue) + " active";
+          filterVenueBtn.setAttribute("aria-pressed", "true");
+        }
+        var badges = pc.querySelectorAll(".pub .badge");
+        for (var k = 0; k < badges.length; k++) {
+          var on = activeVenue && badges[k].closest(".pub").getAttribute("data-venue") === activeVenue;
+          badges[k].classList.toggle("active", !!on);
+          badges[k].setAttribute("aria-pressed", on ? "true" : "false");
+        }
+      }
+
+      pc.addEventListener("click", function (e) {
+        var t = e.target;
+        if (t.closest(".pub-filter-clear") || t.closest(".pub-filter-venue")) {
+          applyFilter(null);
+          return;
+        }
+        var badge = t.closest(".badge");
+        var pub = badge && badge.closest(".pub");
+        if (pub && pc.contains(pub)) {
+          var v = pub.getAttribute("data-venue");
+          applyFilter(activeVenue === v ? null : v);
+        }
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && activeVenue) applyFilter(null);
+      });
+    }
   }
 
   /* ---------- §03 Education ---------- */

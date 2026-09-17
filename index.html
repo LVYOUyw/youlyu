@@ -42,6 +42,7 @@
     --accent-soft: rgba(217, 166, 72, 0.12);
     --glyph: 233, 231, 222;
     --glyph-accent: 217, 166, 72;
+    --glyph-boost: 2.4;
     --grid-line: rgba(233, 231, 222, 0.045);
     --shadow: 0 18px 50px -18px rgba(0, 0, 0, 0.65);
     --c-euro: #7ea2ff;
@@ -67,6 +68,7 @@
     --accent-soft: rgba(150, 105, 15, 0.10);
     --glyph: 35, 37, 46;
     --glyph-accent: 150, 105, 15;
+    --glyph-boost: 1.8;
     --grid-line: rgba(28, 30, 38, 0.05);
     --shadow: 0 18px 45px -20px rgba(40, 35, 20, 0.28);
     --c-euro: #2c5ae0;
@@ -246,27 +248,27 @@
   .chip::before { content: "# "; color: var(--accent); }
 
   /* Publications */
-  .pub-group { margin-bottom: 44px; }
+  .pub-group { margin-bottom: 32px; }
   .pub-group-title {
     font-family: "JetBrains Mono", monospace; font-size: .78rem; text-transform: uppercase;
-    letter-spacing: .14em; color: var(--faint); margin-bottom: 18px; display: flex; align-items: center; gap: 12px;
+    letter-spacing: .14em; color: var(--faint); margin-bottom: 12px; display: flex; align-items: center; gap: 12px;
   }
   .pub-group-title::after { content: ""; flex: 1; height: 1px; background: var(--line-soft); }
-  .pub-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .pub-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
   .pub {
-    border: 1px solid var(--line-soft); border-radius: 14px; padding: 20px 24px;
+    border: 1px solid var(--line-soft); border-radius: 14px; padding: 14px 20px;
     border-left: 3px solid color-mix(in srgb, var(--c, var(--accent)) 55%, transparent);
     background: var(--panel); transition: border-color .25s, transform .25s, background .25s;
   }
   .pub:hover {
     border-color: color-mix(in srgb, var(--accent) 45%, transparent);
     border-left-color: color-mix(in srgb, var(--c, var(--accent)) 80%, transparent);
-    transform: translateY(-3px); background: var(--panel-strong);
+    transform: translateY(-2px); background: var(--panel-strong);
   }
-  .pub-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .pub-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
   .badge {
     font-family: "JetBrains Mono", monospace; font-size: .78rem; font-weight: 600;
-    letter-spacing: .1em; text-transform: uppercase; padding: 5px 12px; border-radius: 8px;
+    letter-spacing: .1em; text-transform: uppercase; padding: 4px 11px; border-radius: 8px;
     color: var(--c);
     background: color-mix(in srgb, var(--c) 13%, transparent);
     border: 1px solid color-mix(in srgb, var(--c) 38%, transparent);
@@ -274,6 +276,17 @@
   .b-euro { --c: var(--c-euro); } .b-asia { --c: var(--c-asia); }
   .b-esorics { --c: var(--c-esorics); } .b-iclr { --c: var(--c-iclr); } .b-tmc { --c: var(--c-tmc); }
   .b-generic { --c: var(--accent); }
+  button.badge {
+    cursor: pointer;
+    transition: box-shadow .2s, background .2s, color .2s, border-color .2s;
+  }
+  button.badge:not(.active):hover {
+    border-color: color-mix(in srgb, var(--c) 70%, transparent);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--c) 28%, transparent);
+  }
+  .badge.active, button.badge[aria-pressed="true"] {
+    background: var(--c); color: var(--bg); border-color: var(--c);
+  }
   .pub-year { font-family: "JetBrains Mono", monospace; font-size: .8rem; color: var(--muted); }
   .pub-link {
     margin-left: auto; font-family: "JetBrains Mono", monospace; font-size: .72rem;
@@ -283,14 +296,30 @@
   .pub-link:hover { color: var(--accent-strong); border-color: var(--accent); }
   .pub-link svg { width: 12px; height: 12px; }
   .pub-title {
-    font-family: "Fraunces", serif; font-weight: 600; font-size: 1.18rem; line-height: 1.4;
-    color: var(--heading); margin-bottom: 6px; letter-spacing: -0.005em;
+    font-family: "Fraunces", serif; font-weight: 600; font-size: 1.1rem; line-height: 1.4;
+    color: var(--heading); margin-bottom: 4px; letter-spacing: -0.005em;
   }
   .pub-title a:hover { color: var(--accent-strong); }
-  .pub-authors { font-size: .92rem; color: var(--muted); }
+  .pub-authors { font-size: .88rem; color: var(--muted); }
   .pub-authors strong { color: var(--text); font-weight: 600; }
   .pub-authors a { border-bottom: 1px dotted var(--line); }
-  .pub-venue-note { font-size: .85rem; color: var(--faint); font-style: italic; margin-top: 4px; }
+  .pub-venue-note { font-size: .82rem; color: var(--faint); font-style: italic; margin-top: 2px; }
+
+  /* Venue filter bar (inserted by site-render.js atop #publications-content) */
+  .pub-filter {
+    display: flex; align-items: center; gap: 10px;
+    font-family: "JetBrains Mono", monospace; font-size: .78rem;
+    color: var(--muted); margin-bottom: 18px;
+  }
+  .pub-filter-venue { flex-shrink: 0; }
+  .pub-filter-clear {
+    font-family: "JetBrains Mono", monospace; font-size: .72rem;
+    color: var(--faint); background: transparent;
+    border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px;
+    cursor: pointer; transition: color .2s, border-color .2s;
+  }
+  .pub-filter-clear:hover { color: var(--accent-strong); border-color: var(--accent); }
+  .pub[hidden], .pub-group[hidden], .pub-filter[hidden] { display: none; }
 
   /* Education timeline */
   .timeline { list-style: none; position: relative; padding-left: 26px; }
@@ -426,7 +455,7 @@
     .nav-links a { display: none; }
     .teach { grid-template-columns: 1fr; gap: 4px; }
     .teach-meta { grid-column: 1; }
-    .pub { padding: 18px; }
+    .pub { padding: 14px 16px; }
     .hero-links .pill { font-size: .74rem; padding: 8px 14px; }
     .dh-card { white-space: normal; }
   }
@@ -583,6 +612,7 @@
     root.setAttribute("data-theme", next);
     try { localStorage.setItem("yl-theme", next); } catch (e) {}
     refreshGlyphColors();
+    if (!reduceMotion && ctx) seed();
   });
 
   /* ---------- Reveal on scroll ---------- */
@@ -607,6 +637,7 @@
     "γ", "ψ", "$", "←", "∧", "0", "1", "q", "e", "τ", "A", "B", "∎"
   ];
   var glyphColor = { base: "233,231,222", accent: "217,166,72" };
+  var glyphBoost = 1;
   var particles = [];
   var ctx = canvas.getContext("2d");
   var W = 0, H = 0, rafId = null;
@@ -615,8 +646,10 @@
     var cs = getComputedStyle(root);
     var b = cs.getPropertyValue("--glyph").trim();
     var a = cs.getPropertyValue("--glyph-accent").trim();
+    var boost = parseFloat(cs.getPropertyValue("--glyph-boost"));
     if (b) glyphColor.base = b;
     if (a) glyphColor.accent = a;
+    glyphBoost = isNaN(boost) ? 1 : boost;
   }
 
   function resize() {
@@ -643,7 +676,7 @@
       speed: 0.08 + Math.random() * 0.22,
       sway: 0.2 + Math.random() * 0.5,
       phase: Math.random() * Math.PI * 2,
-      alpha: accented ? 0.05 + Math.random() * 0.06 : 0.028 + Math.random() * 0.045,
+      alpha: Math.min(0.35, (accented ? 0.05 + Math.random() * 0.06 : 0.028 + Math.random() * 0.045) * glyphBoost),
       color: accented ? glyphColor.accent : glyphColor.base,
       glyph: GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
     };
