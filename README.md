@@ -13,6 +13,7 @@ youlyu-homepage/
 │   ├── avatar.jpg                # 头像 800x800
 │   └── avatar-small.jpg          # 头像 480x480
 ├── googledec545a98f5861cd.html   # Google 搜索控制台验证文件（必须保留）
+├── sitemap.xml                   # 站点地图（在 Search Console 中提交）
 ├── .nojekyll                     # 让 GitHub Pages 跳过 Jekyll 处理
 ├── server.js                     # 本地预览用零依赖静态服务器
 └── package.json
